@@ -11,4 +11,19 @@ main {
 section {
     max-width: 800px;
     margin: 50px auto;
+    font-size: 1.1rem;
+}
+
+section h1{
+    font-size: 1.8rem;
+    color: #c62f2f;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: 900;
+}
+
+section #results{
+  text-align: center;
+  margin: auto;
+  font-size: 1.4rem;
 }

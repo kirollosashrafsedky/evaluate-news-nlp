@@ -1,16 +1,28 @@
+let apiKey = 0;
+const urlParts = {
+  'firstPart': 'https://api.meaningcloud.com/sentiment-2.1?key=',
+  'secondPart': '&of=json&lang=en&txt='
+}
+
 function handleSubmit(event) {
+    let inputTxt = document.getElementById('inputBox').value;
     event.preventDefault()
-
-    // check what text was put into the form field
-    let formText = document.getElementById('name').value
-    Client.checkForName(formText)
-
-    console.log("::: Form Submitted :::")
-    fetch('http://localhost:8080/test')
-    .then(res => res.json())
-    .then(function(res) {
-        document.getElementById('results').innerHTML = res.message
+    getkey()
+    .then(() => {
+      const fullUrl = urlParts.firstPart + apiKey + urlParts.secondPart + inputTxt;
+      Client.getData(fullUrl)
     })
 }
+
+const getkey = async () => {
+  const request = await fetch('http://localhost:8081/getkey');
+  try{
+    const data = await request.json();
+    apiKey = data.apiKey
+  }catch(error){
+    return("error");
+  }
+}
+
 
 export { handleSubmit }

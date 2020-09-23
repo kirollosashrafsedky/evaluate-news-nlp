@@ -1,8 +1,11 @@
+const fetch = require("node-fetch");
+
 const getData = async (url) => {
   const request = await fetch(url);
   try{
     const data = await request.json();
     printTohtml(data)
+    return 'done';
   }catch(error){
     return("error");
   }
@@ -20,4 +23,5 @@ function printTohtml(data){
 `;
 }
 
+export { printTohtml }
 export { getData }

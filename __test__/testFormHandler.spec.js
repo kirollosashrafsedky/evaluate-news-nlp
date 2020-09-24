@@ -1,8 +1,7 @@
-import { getkey } from "../src/client/js/formHandler"
+import { getData } from "../src/client/js/formHandler"
 
 
-test('test get json key', async () => {
-  expect.assertions(1);
-  const data = await getkey();
+test('test get data', async () => {
+  const data = await getData();
   expect(data).toBeTruthy();
 });

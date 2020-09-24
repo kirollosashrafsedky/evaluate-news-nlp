@@ -1,13 +1,9 @@
 var path = require('path')
 const express = require('express')
-// const mockAPIResponse = require('./mockAPI.js')
 const dotenv = require('dotenv');
-
+const request = require('request');
+projectData = {};
 dotenv.config();
-const key = {
-  'apiKey': process.env.API_KEY
-}
-
 
 const app = express()
 
@@ -31,6 +27,17 @@ app.listen(8081, function () {
     console.log('Example app listening on port 8081!')
 })
 
-app.get('/getkey', function (req, res) {
-    res.send(key)
+app.post('/getdata', function (req, res) {
+  projectData = req.body;
+  const key = process.env.API_KEY
+  const urlParts = {
+    'firstPart': 'https://api.meaningcloud.com/sentiment-2.1?key=',
+    'secondPart': '&of=json&lang=en&txt='
+  }
+  const fullUrl = urlParts.firstPart + key + urlParts.secondPart + projectData.input;
+  request(fullUrl, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.send(body) // Show the HTML for the Google homepage.
+    }
+  });
 })

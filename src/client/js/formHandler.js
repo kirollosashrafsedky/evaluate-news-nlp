@@ -1,33 +1,50 @@
 const fetch = require("node-fetch");
+import { printTohtml } from './printData'
 
-let apiKey = 0;
-const urlParts = {
-  'firstPart': 'https://api.meaningcloud.com/sentiment-2.1?key=',
-  'secondPart': '&of=json&lang=en&txt='
-}
 
 function handleSubmit(event) {
     event.preventDefault()
-    let inputTxt = document.getElementById('inputBox').value;
-
-    getkey()
-    .then((key) => {
-      const fullUrl = urlParts.firstPart + key + urlParts.secondPart + inputTxt;
-      Client.getData(fullUrl)
-    })
+    const inputTxt = document.getElementById('inputBox').value;
+    const inputObj = {
+      'input': inputTxt
+    }
+    if (formValidate()){
+      getData(inputObj)
+      .then((data) => {
+        Client.printTohtml(data);
+      })
+    }
 }
 
-const getkey = async () => {
-  const request = await fetch('http://localhost:8081/getkey');
-  try{
-    const data = await request.json();
-    return data.apiKey
-  }catch(error){
-    return("error");
+function formValidate(){
+  const inputTxt = document.getElementById('inputBox').value;
+  const errorMsg = document.getElementById('err-msg');
+  errorMsg.innerText = "";
+  if(inputTxt == ''){
+    errorMsg.innerText = 'You can\'t submit empty input'
+    return false;
+
+  }else{
+    return true;
   }
 }
 
-
+const getData = async (data = {})=>{
+    const response = await fetch('http://localhost:8081/getdata', {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+    try {
+      const newData = await response.json();
+      return newData;
+    }catch(error) {
+    console.log("error", error);
+    }
+}
 
 export { handleSubmit }
-export { getkey }
+export { getData }

@@ -1,4 +1,4 @@
-import { getData } from './js/getData'
+import { printTohtml } from './js/printData'
 import { handleSubmit } from './js/formHandler'
 
 import './styles/resets.scss'
@@ -8,6 +8,6 @@ import './styles/form.scss'
 import './styles/header.scss'
 
 export{
-  getData,
+  printTohtml,
   handleSubmit
 }
